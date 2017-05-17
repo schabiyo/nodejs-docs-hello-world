@@ -8,20 +8,30 @@ uuid=$(cat /proc/sys/kernel/random/uuid)
 
 echo "uuid=${uuid}"
 
-az appservice web deployment user set --user-name $uuid --password $deployment_password
+#Get the FTP information
+
+profiles=$(az appservice web deployment list-publishing-profiles -g $rg_name --name $webapp_name)
+
+echo $profiles
+
+username=$(jq .i[1].userName <<< $profiles)
+password=$(jq .i[1].userPWD <<< $profiles)
+ftpURL=$(jq .[1].publishUrl <<< $profiles)
+
+
+echo "FTPURL=${ftpURL}"
+echo "Username=${username}"
+echo "Pwd=${password}"
+
+
+TRIMMED_RESULT="${password%\"}"
+password="${TRIMMED_RESULT#\"}"
+
+TRIMMED_RESULT="${username%\"}"
+username="${TRIMMED_RESULT#\"}"
+
+TRIMMED_RESULT="${ftpURL%\"}"
+ftpURL="${TRIMMED_RESULT#\"}"
 
 #Configure local GIT deployment
-git_url=$(az appservice web source-control config-local-git --name $webapp_name --resource-group $rg_name --query url --output tsv)
-
-echo $git_url
-
-#Add the Password in the URL
-result_string="${git_url/$uuid/$uuid:$deployment_password}"
-
-echo $result_string
-
-cd web-nodejs
-git remote add azure $result_string
-git push azure master --force
-
 
