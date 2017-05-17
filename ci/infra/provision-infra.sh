@@ -23,7 +23,7 @@ echo "Starting deployment..."
 (
 	set -x
 	az group deployment create --name web-nodejs  -g $rg_name --template-file web-nodejs/ci/infra/arm/appservice-template.json \
-             --parameters "{\"siteName\":{\"value\":\"$webapp_name\"}}" --verbose
+             --parameters "{\"siteName\":{\"value\":\"$webapp_name\"}, \"hostingPlanName\":{\"value\":\"$webapp_name\"}}" --verbose
 )
 
 if [ $?  == 0 ]; 
