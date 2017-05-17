@@ -4,7 +4,7 @@ set -e
 az login --service-principal -u $service_principal_id -p $service_principal_secret --tenant $tenant_id
 az account set --subscription "$subscription_id"  &> /dev/null
 
-uuid=$(uuidgen)
+uuid=$(cat /proc/sys/kernel/random/uuid)
 
 echo "uuid=${uuid}"
 
