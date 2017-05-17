@@ -5,7 +5,7 @@ az login --service-principal -u $service_principal_id -p $service_principal_secr
 az account set --subscription "$subscription_id"  &> /dev/null
 #Create th eRG is it does not exist
 #Check for existing RG
-az group show $rg_name 1> /dev/null
+az group show -n $rg_name 1> /dev/null
 
 if [ $? != 0 ]; then
 	echo "Resource group with name" $rg_name "could not be found. Creating new resource group.."
