@@ -40,8 +40,4 @@ git_url=$(az appservice web source-control config-local-git --name $webapp_name 
 
 echo $git_url
 
-cd web-nodejs
-git remote add azure $git_url
-git push azure master
-
 
