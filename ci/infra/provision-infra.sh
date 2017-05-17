@@ -26,11 +26,11 @@ fi
 
 #Create  a deployment credential is it does not exist
 
-az appservice web deployment user set --user-name $deployment_username --password $deployment_password
+#az appservice web deployment user set --user-name $deployment_username --password $deployment_password
 
 #Configure local GIT deployment
-git_url=$(az appservice web source-control config-local-git --name $webapp_name --resource-group $rg_name --query url --output tsv)
+#git_url=$(az appservice web source-control config-local-git --name $webapp_name --resource-group $rg_name --query url --output tsv)
 
-echo $git_url
+#echo $git_url
 
 
