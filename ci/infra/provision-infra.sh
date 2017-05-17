@@ -38,5 +38,10 @@ az appservice web deployment user set --user-name $deployment_username --passwor
 #Configure local GIT deployment
 git_url=$(az appservice web source-control config-local-git --name $webapp_name --resource-group $rg_name --query url --output tsv)
 
+echo $git_url
+
+cd web-nodejs
+git remote add azure $git_url
+git push azure master
 
 
