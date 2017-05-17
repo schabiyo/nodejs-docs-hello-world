@@ -14,8 +14,8 @@ profiles=$(az appservice web deployment list-publishing-profiles -g $rg_name --n
 
 echo $profiles
 
-username=$(jq .i[1].userName <<< $profiles)
-password=$(jq .i[1].userPWD <<< $profiles)
+username=$(jq .[1].userName <<< $profiles)
+password=$(jq .[1].userPWD <<< $profiles)
 ftpURL=$(jq .[1].publishUrl <<< $profiles)
 
 
