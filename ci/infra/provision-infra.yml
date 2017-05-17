@@ -15,6 +15,7 @@ params:
   rg_location:
   rg_name:
   webplan_sku:
+  webapp_name:
   deployment_username:
   deployment_password:
 

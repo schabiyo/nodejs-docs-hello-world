@@ -22,8 +22,8 @@ fi
 echo "Starting deployment..."
 (
 	set -x
-	az group deployment create --name web-nodejs  -g $rg_name --template-file web-nodejs/arm/appservice-template.json \
-             --parameters "{\"storageAccountType\":{\"value\":\"Standard_GRS\"}}" --verbose
+	az group deployment create --name web-nodejs  -g $rg_name --template-file web-nodejs/ci/infra/arm/appservice-template.json \
+             --parameters "{\"siteName\":{\"value\":\"$webapp_name\"}}" --verbose
 )
 
 if [ $?  == 0 ]; 
@@ -34,6 +34,9 @@ fi
 #Create  a deployment credential is it does not exist
 
 az appservice web deployment user set --user-name $deployment_username --password $deployment_password
+
+#Configure local GIT deployment
+git_url=$(az appservice web source-control config-local-git --name $webapp_name --resource-group $rg_name --query url --output tsv)
 
 
 
