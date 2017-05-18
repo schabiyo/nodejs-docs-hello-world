@@ -8,7 +8,6 @@ appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY | "EMPTY")
     .setAutoCollectDependencies(true)
     .start();
 } else {
-  concole.log("App Insight not set");
 }
 
 var http = require('http');
