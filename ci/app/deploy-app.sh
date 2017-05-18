@@ -5,7 +5,7 @@ az login --service-principal -u $service_principal_id -p $service_principal_secr
 az account set --subscription "$subscription_id"  &> /dev/null
 
 #Check if appinsights_key is set
-if [[ !  -z  $param  ]]; then
+if [[ !  -z  $appinsights_key  ]]; then
   echo "Looks like there is an appinsight key set:"$appinsights_key
   az appservice web config appsettings update --setting APPINSIGHTS_INSTRUMENTATIONKEY=$appinsights_key -g $rg_name -n $webapp_name
 fi
