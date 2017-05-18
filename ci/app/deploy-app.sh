@@ -33,5 +33,11 @@ username="${TRIMMED_RESULT#\"}"
 TRIMMED_RESULT="${ftpURL%\"}"
 ftpURL="${TRIMMED_RESULT#\"}"
 
+
+echo "FTPURL=${ftpURL}"
+echo "Username=${username}"
+echo "Pwd=${password}"
+
+
 #Configure local GIT deployment
 
