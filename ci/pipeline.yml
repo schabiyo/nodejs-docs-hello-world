@@ -1,0 +1,73 @@
+---
+resources:
+ - name: web-nodejs
+   type: git
+   source:
+    uri: {{WEB-GIT-URL}}
+
+
+jobs:
+
+  - name: web-unit-test
+    serial: true
+    public: false
+    plan:
+      - get: web-nodejs
+        trigger: true
+      - task: unit-test
+        file: web-nodejs/ci/app/unit-test.yml
+        params:
+
+  - name: deploy-infrastructure
+    plan:
+      - get: web-nodejs
+        passed: [web-unit-test]
+        trigger: true
+      - task: deploy-azure-artifact
+        file: web-nodejs/ci/infra/provision-infra.yml
+        params:
+          - service_principal_id: {{SERVICE_PRINCIPAL_ID}}
+          - service_principal_secret: {{SERVICE_PRINCIPAL_SECRET}}
+          - tenant_id: {{TENANT_ID}}
+          - subscription_id: {{SUBSCRIPTION_ID}}
+          - rg_name: {{RESOURCE-GROUP-NAME}}
+          - rg_location: {{RESOURCE-LOCATION}}
+          - webplan_sku: {{WEBPLAN-SKU}}
+          - webapp_name: {{WEBAPP-NAME}}
+
+
+  - name: deploy-app
+    plan:
+      - get: web-nodejs
+        passed: [deploy-infrastructure]
+        trigger: true
+      - task: deploy-webapp
+        file: web-nodejs/ci/app/deploy-app.yml
+        params:
+          - service_principal_id: {{SERVICE_PRINCIPAL_ID}}
+          - service_principal_secret: {{SERVICE_PRINCIPAL_SECRET}}
+          - tenant_id: {{TENANT_ID}}
+          - subscription_id: {{SUBSCRIPTION_ID}}
+          - rg_name: {{RESOURCE-GROUP-NAME}}
+          - webapp_name: {{WEBAPP-NAME}}
+          - appinsights_key: {{APPINSIGHTS_INSTRUMENTATIONKEY}}
+
+  - name: performance-test
+    serial: true
+    plan:
+      - get: web-nodejs
+        passed: [deploy-app]
+        trigger: true
+      - task: integration
+        file: web-nodejs/ci/app/load-test.yml
+        params:
+          - webapp_name: {{WEBAPP-NAME}}
+ 
+
+  - name: web-shipit-final
+    serial_groups: [web-version]
+    plan:
+      - get: web-nodejs
+        passed: [performance-test]
+        trigger: true
+
