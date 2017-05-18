@@ -40,13 +40,8 @@ echo "Pwd=${password}"
 
 cd web-nodejs
 
-ftp -n $ftpURL <<END_SCRIPT
-quote USER $username
-quote PASS $password
-mput *
-quit
-END_SCRIPT
-exit 0
+lftp -d -u syonodejs1,$password $ftpURL
+mirror -R .
+exit
 
-#Configure local GIT deployment
 
