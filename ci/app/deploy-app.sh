@@ -4,9 +4,11 @@ set -e
 az login --service-principal -u $service_principal_id -p $service_principal_secret --tenant $tenant_id
 az account set --subscription "$subscription_id"  &> /dev/null
 
-uuid=$(cat /proc/sys/kernel/random/uuid)
-
-echo "uuid=${uuid}"
+#Check if appinsights_key is set
+if [[ !  -z  $param  ]]; then
+  echo "Looks like there is an appinsight key set:"$appinsights_key
+  az appservice web config appsettings update --setting APPINSIGHTS_INSTRUMENTATIONKEY=$appinsights_key -g $rg_name -n $webapp_name
+fi
 
 #Get the FTP information
 
@@ -39,7 +41,7 @@ echo "Username=${username}"
 echo "Pwd=${password}"
 
 IFS='$' read -r -a array <<< $username
-$username="${array[1]}"
+username="${array[1]}"
 
 echo "username=${$username}"
 

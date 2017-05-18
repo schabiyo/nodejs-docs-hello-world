@@ -18,6 +18,7 @@ params:
   webapp_name:
   deployment_username:
   deployment_password:
+  appinsights_key:
 
 
 inputs:

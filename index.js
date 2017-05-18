@@ -1,3 +1,14 @@
+
+const appInsights = require("applicationinsights");
+appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY)
+    .setAutoDependencyCorrelation(false)
+    .setAutoCollectRequests(true)
+    .setAutoCollectPerformance(true)
+    .setAutoCollectExceptions(true)
+    .setAutoCollectDependencies(true)
+    .start();
+
+
 var http = require('http');
 
 var server = http.createServer(function(request, response) {
