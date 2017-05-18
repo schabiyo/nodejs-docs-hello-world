@@ -1,6 +1,6 @@
 #!/bin/bash
 #set -e
-set +e
+set -e
 
 az login --service-principal -u $service_principal_id -p $service_principal_secret --tenant $tenant_id
 az account set --subscription "$subscription_id"  &> /dev/null
@@ -9,8 +9,6 @@ az account set --subscription "$subscription_id"  &> /dev/null
 
 set -x
 az group create --name $rg_name --location $rg_location 1> /dev/null
-
-set +e
 
 #Let validate the deployment template first
 echo "Validating the template...."
@@ -32,8 +30,10 @@ echo "Starting deployment..."
 if [ $?  == 0 ]; 
  then
 	echo "Template has been successfully deployed"
+        exit 0
 fi
 
+exit 1
 #Create  a deployment credential is it does not exist
 
 #az appservice web deployment user set --user-name $deployment_username --password $deployment_password
