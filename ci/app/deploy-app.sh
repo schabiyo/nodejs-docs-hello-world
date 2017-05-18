@@ -46,7 +46,7 @@ username="${array[1]}"
 echo "username=${username}"
 
 cd web-nodejs
-
+npm install applicationinsights --save
 lftp -d -u $username,$password $ftpURL  << END_SCRIPT
 mirror -R . --exclude .git --exclude ci/
 exit
