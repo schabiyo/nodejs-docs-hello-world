@@ -40,8 +40,9 @@ echo "Pwd=${password}"
 
 cd web-nodejs
 
-lftp -d -u syonodejs1,$password $ftpURL
+lftp -d -u syonodejs1,$password $ftpURL  << END_SCRIPT
 mirror -R .
 exit
+END_SCRIPT
 
 
