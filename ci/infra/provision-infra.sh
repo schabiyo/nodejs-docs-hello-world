@@ -11,6 +11,16 @@ set -x
 az group create --name $rg_name --location $rg_location 1> /dev/null
 
 set +e
+
+#Let validate the deployment template first
+echo "Validating the template...."
+(
+az group deployment validate \
+    --resource-group $rg_name \
+    --template-file web-nodejs/ci/infra/arm/appservice-template.json \
+    --parameters "{\"siteName\":{\"value\":\"$webapp_name\"}, \"hostingPlanName\":{\"value\":\"$webapp_name\"}}"
+)
+
 #Start deployment
 echo "Starting deployment..."
 (

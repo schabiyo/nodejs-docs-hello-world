@@ -43,7 +43,7 @@ echo "Pwd=${password}"
 IFS='$' read -r -a array <<< $username
 username="${array[1]}"
 
-echo "username=${$username}"
+echo "username=${username}"
 
 cd web-nodejs
 
