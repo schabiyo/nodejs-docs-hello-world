@@ -1,6 +1,6 @@
 
 const appInsights = require("applicationinsights");
-appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY)
+appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY | "EMPTY")
     .setAutoDependencyCorrelation(false)
     .setAutoCollectRequests(true)
     .setAutoCollectPerformance(true)
