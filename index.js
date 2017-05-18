@@ -1,4 +1,4 @@
-
+if(process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
 const appInsights = require("applicationinsights");
 appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY | "EMPTY")
     .setAutoDependencyCorrelation(false)
@@ -7,7 +7,9 @@ appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY | "EMPTY")
     .setAutoCollectExceptions(true)
     .setAutoCollectDependencies(true)
     .start();
-
+} else {
+  concole.log("App Insight not set");
+}
 
 var http = require('http');
 

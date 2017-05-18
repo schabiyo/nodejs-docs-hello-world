@@ -49,7 +49,7 @@ cd web-nodejs
 npm install applicationinsights --save
 lftp -d -u $username,$password $ftpURL  << END_SCRIPT
 mirror -R . --exclude .git --exclude ci/
-exit
+exit 0
 END_SCRIPT
 
 
