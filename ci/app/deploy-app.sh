@@ -38,6 +38,15 @@ echo "FTPURL=${ftpURL}"
 echo "Username=${username}"
 echo "Pwd=${password}"
 
+cd web-nodejs
+
+ftp -n $ftpURL <<END_SCRIPT
+quote USER $username
+quote PASS $password
+mput *
+quit
+END_SCRIPT
+exit 0
 
 #Configure local GIT deployment
 
