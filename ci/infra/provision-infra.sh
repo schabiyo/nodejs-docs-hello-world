@@ -16,7 +16,7 @@ echo "Validating the template...."
 az group deployment validate \
     --resource-group $rg_name \
     --template-file web-nodejs/ci/infra/arm/appservice-template.json \
-    --parameters "{\"siteName\":{\"value\":\"$webapp_name\"}, \"hostingPlanName\":{\"value\":\"$webapp_name\"}}"
+    --parameters "{\"siteName\":{\"value\":\"$webapp_name\"}, \"skuName\":{\"value\":\"$webplan_sku\"}, \"hostingPlanName\":{\"value\":\"$webapp_name\"}}"
 )
 
 #Start deployment
@@ -24,7 +24,7 @@ echo "Starting deployment..."
 (
 	set -x
 	az group deployment create --name web-nodejs  -g $rg_name --template-file web-nodejs/ci/infra/arm/appservice-template.json \
-             --parameters "{\"siteName\":{\"value\":\"$webapp_name\"}, \"hostingPlanName\":{\"value\":\"$webapp_name\"}}" --verbose
+             --parameters "{\"siteName\":{\"value\":\"$webapp_name\"}, \"skuName\":{\"value\":\"$webplan_sku\"}, \"hostingPlanName\":{\"value\":\"$webapp_name\"}}" --verbose
 )
 
 if [ $?  == 0 ]; 
