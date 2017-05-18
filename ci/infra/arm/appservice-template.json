@@ -9,7 +9,9 @@
     "siteName": {
       "type": "string",
       "minLength": 1,
+       "metadata": {
         "description":  "Name of the web site"
+      }
     },
     "skuName": {
       "type": "string",
