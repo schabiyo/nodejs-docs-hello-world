@@ -38,10 +38,15 @@ echo "FTPURL=${ftpURL}"
 echo "Username=${username}"
 echo "Pwd=${password}"
 
+IFS='$' read -r -a array <<< $username
+$username="${array[1]}"
+
+echo "username=${$username}"
+
 cd web-nodejs
 
-lftp -d -u syonodejs1,$password $ftpURL  << END_SCRIPT
-mirror -R .
+lftp -d -u $username,$password $ftpURL  << END_SCRIPT
+mirror -R . --exclude .git --exclude ci/
 exit
 END_SCRIPT
 
